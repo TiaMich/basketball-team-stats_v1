@@ -112,3 +112,10 @@ PLAYERS = [{
         'height': '41 inches'
     }
 ]
+
+def main():
+    print("hello from constants")
+   #nothing for now
+
+if __name__ == '__main__':
+    main()
