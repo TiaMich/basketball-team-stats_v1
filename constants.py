@@ -114,8 +114,10 @@ PLAYERS = [{
 ]
 
 def main():
-    print("hello from constants")
-   #nothing for now
+    print("** Hello from file: constants **")
+    print(f"Total number of players: {len(PLAYERS)}")
+    print(f"Total number of teams: {len(TEAMS)}")
+    print(f"Players per team: {len(PLAYERS)/len(TEAMS)}")
 
 if __name__ == '__main__':
     main()
