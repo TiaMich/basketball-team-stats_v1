@@ -9,16 +9,13 @@ Project 2 - A Basketball Stats Tool
 
 from constants import TEAMS, PLAYERS
 from statistics import mean
-import copy
-
-# Copy of the teams so that we can manipulate without changing the original information
-# Not really sure if I need to use this data or how..
-# decided to add, because in a real-life scenario, the teams could change and this would still work
-team_choice = copy.deepcopy(TEAMS)
+panthers = []
+bandits = []
+warriors = []
 
 # func to clean the data
 def clean_data(PLAYERS):
-    cleaned_player = []
+    fixed_data = []
     for player in PLAYERS:
         fixed = {}
         fixed['name'] = player['name']
@@ -31,22 +28,34 @@ def clean_data(PLAYERS):
         else:
             fixed['experience'] = False
         fixed['height (inches)'] = int(player['height'].split(' ')[0])
-        cleaned_player.append(fixed)
-    return cleaned_player
+        fixed_data.append(fixed)
+    return fixed_data
 
-# func to balance the teams
-def bal_teams():
-    set(clean_data(PLAYERS))
-    # Panthers
-    team_choice[0] = set()
-    # Bandits
-    team_choice[1] = set()
-    # Warriors
-    team_choice[2] = set()
-    # need to somehow, randomly, split up all the players between the teams
-    # and each team has to have 6 unique players on it,
-    # and the players are also unique to each team.
-    # there needs to be a conditional that the teams have to have  equal num of exp vs. inexp
+clean_team = clean_data(PLAYERS) # contains the result of clean_data func
+
+# func to sort players to each team... ERROR
+def balance_teams(clean_team):
+    for player in clean_team: # iterate through cleaned data
+        if len(panthers) < 6:
+            true_count = panthers.count(True) #count how many times True appears in team
+            if player['experience'] == True and true_count < 3:
+                panthers.append(player)
+            else:
+                panthers.append(player)
+
+        if len(bandits) < 6:
+            true_count = bandits.count(True)
+            if player not in panthers and player['experience'] == True and true_count < 3:
+                bandits.append(player)
+            else:
+                bandits.append(player)
+
+        if len(warriors) < 6:        
+            joint_team = bandits + panthers # using to concatenate teams to make code cleaner
+            if player not in joint_team:
+                warriors.append(player)
+
+    return panthers, bandits, warriors
 
 # the menu options display
 def main_menu():
@@ -60,29 +69,36 @@ def main_menu():
 
 # the menu options for team choice
 def sub_menu():
-    print(f"""
+    print("""
     ----- CHOOSE A TEAM -----
-        A) {team_choice[0]}
-        B) {team_choice[1]}
-        C) {team_choice[2]}
+        A) Panthers
+        B) Bandits
+        C) Warriors
     """)
-    sub_choice = input("Enter an Option:")
+    sub_choice = input("Enter an Option: ")
 
-# game stats following completion of the game
-#def team_stats():
-    #print(f"""
-    #Team: The {}
-    #----------------------------
-    #Total Players: {}
-    #Total experienced: {}.
-    #Total inexperienced: {}.
-    #Average height: {mean()}.
-   #""")
-print(len(clean_data(PLAYERS))) #18
+    # game stats following completion of the game
+    def display_stats():
+        if sub_choice.lower() == 'A':
+            for player in panthers:
+                print(f"""\nTeam: The Panthers
+                    ----------------------------
+                    Total Players: {len(panthers)}
+                    Total experienced: {3}.
+                    Total inexperienced: {3}.
+                    Average height: {mean(panthers['height'])}.\n""")
+    clean_data(PLAYERS)
+
+# Run code
+clean_data(PLAYERS)
+panthers, bandits, warriors = balance_teams(clean_team)
+print(panthers, "\n")
+print(bandits, "\n")
+print(warriors)
+
+
+
 
 # To Do:
-# Catch all exceptions
-# Clean Data & store properly:
-#   * Convert height to integer
-#   * Make Experienced string Boolean
-#   * Convert guardians string so that it becomes a list of strings
+# Catch all exceptions (menu options)
+# Choice to see player's individual stats (possible extra feature)
