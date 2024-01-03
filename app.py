@@ -9,9 +9,11 @@ Project 2 - A Basketball Stats Tool
 
 from constants import TEAMS, PLAYERS
 from statistics import mean
+
 panthers = []
 bandits = []
 warriors = []
+total_experienced = 0
 
 # func to clean the data
 def clean_data(PLAYERS):
@@ -27,35 +29,32 @@ def clean_data(PLAYERS):
             fixed['experience'] = True
         else:
             fixed['experience'] = False
-        fixed['height (inches)'] = int(player['height'].split(' ')[0])
+        fixed['height'] = int(player['height'].split(' ')[0])
         fixed_data.append(fixed)
     return fixed_data
 
 clean_team = clean_data(PLAYERS) # contains the result of clean_data func
 
-# func to sort players to each team... ERROR
+# func to sort players to each team
 def balance_teams(clean_team):
-    for player in clean_team: # iterate through cleaned data
-        if len(panthers) < 6:
-            true_count = panthers.count(True) #count how many times True appears in team
-            if player['experience'] == True and true_count < 3:
-                panthers.append(player)
-            else:
-                panthers.append(player)
+    experienced = []
+    inexperienced = []
+    all_teams = [panthers, bandits, warriors]
 
-        if len(bandits) < 6:
-            true_count = bandits.count(True)
-            if player not in panthers and player['experience'] == True and true_count < 3:
-                bandits.append(player)
-            else:
-                bandits.append(player)
-
-        if len(warriors) < 6:        
-            joint_team = bandits + panthers # using to concatenate teams to make code cleaner
-            if player not in joint_team:
-                warriors.append(player)
-
-    return panthers, bandits, warriors
+    for player in clean_team:
+        if player['experience'] == True:
+            experienced.append(player)
+        else:
+            inexperienced.append(player)
+    while experienced:
+        for team in all_teams:
+            pop_player = experienced.pop(0)
+            team.append(pop_player)
+    while inexperienced:
+        for team in all_teams:
+            pop_player = inexperienced.pop(0)
+            team.append(pop_player)   
+    return all_teams
 
 # the menu options display
 def main_menu():
@@ -65,7 +64,6 @@ def main_menu():
         A) DISPLAY TEAM STATS
         B) QUIT
     """)
-    main_choice = input("Enter an Option: ")
 
 # the menu options for team choice
 def sub_menu():
@@ -75,30 +73,62 @@ def sub_menu():
         B) Bandits
         C) Warriors
     """)
-    sub_choice = input("Enter an Option: ")
 
-    # game stats following completion of the game
-    def display_stats():
-        if sub_choice.lower() == 'A':
-            for player in panthers:
-                print(f"""\nTeam: The Panthers
-                    ----------------------------
-                    Total Players: {len(panthers)}
-                    Total experienced: {3}.
-                    Total inexperienced: {3}.
-                    Average height: {mean(panthers['height'])}.\n""")
+# game stats following completion of the game
+def display_stats(team):
+    #Creating lists to count player experience type
+    experienced = []
+    inexperienced = []
+    for player in team:
+        if player['experience'] == True:
+            experienced.append(player)
+        else:
+            inexperienced.append(player)
+    #player heights loop thru
+    player_heights = []
+    for player in team:
+        player_heights.append(player['height'])
+
+    player_names = []
+    for player in team:
+        player_names.append(player['name'])
+    # Text displaying to the user
+    print("----------------------------\n",
+        f"Total Players: {len(team)}\n",
+        f"Total experienced: {len(experienced)}\n",
+        f"Total inexperienced: {len(inexperienced)}\n"
+        f"Average height: {mean(player_heights)}\n",
+        "\nPlayers on Team:\n ",
+        f"{player_names}")
+    
+
+def run_app():
     clean_data(PLAYERS)
+    balance_teams(clean_team)
+    while True:
+        sub_menu()
+        sub_choice = input("Choose an option:\n")
+        if sub_choice.lower() == 'a':
+            print("Team: Panthers Stats")
+            display_stats(panthers)
+        elif sub_choice.lower() == 'b':
+            print("Team: Bandits Stats")
+            display_stats(bandits)
+        elif sub_choice.lower() == 'c':
+            print("Team: Warriors Stats")
+            display_stats(warriors)
+    #  NEED TO FIND A WAY TO BREAK THIS LOOP
+    
+#run the full code
+main_menu()
+while True:
+    main_choice = input("Enter an Option: ")
+    if main_choice.lower() == 'b':
+        break
+    elif main_choice.lower() == 'a':
+        run_app()
+        break
+     
 
-# Run code
-clean_data(PLAYERS)
-panthers, bandits, warriors = balance_teams(clean_team)
-print(panthers, "\n")
-print(bandits, "\n")
-print(warriors)
-
-
-
-
-# To Do:
-# Catch all exceptions (menu options)
-# Choice to see player's individual stats (possible extra feature)
+# To Do: Catch all exceptions (menu options)
+# Possible FUTURE todo: Choice to see player's individual stats (possible extra feature)
