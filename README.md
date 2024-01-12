@@ -1,22 +1,22 @@
 # Basketball Team Stats Tool
-In this project you will be writing a program that reads from the "constants" data (`PLAYERS` and `TEAMS`) in `constants.py`. This data will need to be translated into a new collection of your choosing and the fields need to be changed to something that makes more sense for Python to do its comparisons.
+This is the basketball stats tool, which takes data of players, sorts them onto teams, and displays this information to the user in an easy to navagate, readable format.
 
+More specifically, this project takes data from a module file and imports it into my application script file. The module file contains a Dunder Main statement to keep the imported module information from executing inside of the script, unless otherwise commanded to. The aim is to clean the data of all the players in the basketball league (FYI: all players and player information is listed in the constant, "PLAYERS," of the module, which is seperately copied onto the app.py file for altering) to meet the client's requirements, which are as following:
+- Player data imported from constants.py (module)
+- The experienced string should become boolean (True if 'Yes' or False if 'No')
+- The guardians string should become a List of strings. Remove the 'and' between the names and store each guardian in a List together for that player.
+
+This application also has requirements of how to display the data to the user:
+- Team's name displayed as a string
+- Total players on that team is as an integer
+- The player names as strings separated by commas
+- number of inexperienced players on that team
+- number of experienced players on that team
+- the average height of the team
+- the guardians of all the players on that team (as a comma-separated string)
+
+My project is aiming to exceed expectation, so it also should meets these requirements:
+- The players organized by height (tallest to shortest)
+   * The following data points were saved to the team’s data structure *
 
 **NOTE**: Python has no concept of actual constants like some other languages out there. But it is a convention in Python to treat ALL CAPS variables as if they are in-fact constants.
-
-
-**Steps to get started:**
-
-1. Create a new empty script file called `app.py` or `application.py`
-
-2. Inside this new file, you will want a Dunder Main statement:
-   For a refresh on Dunder Main:
-   https://teamtreehouse.com/library/understanding-dunder-main-main
-
-3. Any print statements or function calls you will want to be inside Dunder Main or inside a main function call which is nested inside Dunder Main.
-   If you need a refresh, check out the supplied Project 1 files/workspace for an example.
-   
-
-
-If you get stuck, try to work through the problem. Sometimes it helps to try to write/draw out your steps on paper in the order your program should run in and solve each step 1 at a time. If you are still stuck be sure to reach out in the Python Techdegree #unit-02 Slack channel.
-
