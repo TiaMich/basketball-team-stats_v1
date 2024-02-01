@@ -112,12 +112,3 @@ PLAYERS = [{
         'height': '41 inches'
     }
 ]
-
-def main():
-    print("** Hello from file: constants **")
-    print(f"Total number of players: {len(PLAYERS)}")
-    print(f"Total number of teams: {len(TEAMS)}")
-    print(f"Players per team: {len(PLAYERS)/len(TEAMS)}")
-
-if __name__ == '__main__':
-    main()

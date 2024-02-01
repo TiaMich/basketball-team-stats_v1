@@ -61,9 +61,9 @@ def balance_teams(clean_team):
 
 # the Main (first) menu options display
 def main_menu():
-    print("***** Basketball Team Stats Tool *****")
+    print("\n***** Basketball Team Stats Tool *****")
     print("""
-    ----- MENU OPTIONS -----
+    ----- MAIN MENU -----
         A) DISPLAY TEAM STATS
         B) QUIT
     """)
@@ -125,31 +125,34 @@ def display_stats(team):
 def run_app():
     clean_data(PLAYERS)
     balance_teams(clean_team)
+    sub_menu()
+    sub_choice = input("Choose an option: ")
+    if sub_choice.lower() == 'a':
+        print("\nTeam: Panthers Stats")
+        display_stats(panthers)
+
+    elif sub_choice.lower() == 'b':
+        print("\nTeam: Bandits Stats")
+        display_stats(bandits)
+
+    elif sub_choice.lower() == 'c':
+        print("\nTeam: Warriors Stats")
+        display_stats(warriors)
+
+#  NEED TO Write exceptions
+    
+#Script to run the full code in a dunder_main statement
+def main():
+    main_menu()
     while True:
-        sub_menu()
-        sub_choice = input("Choose an option: ")
-        if sub_choice.lower() == 'a':
-            print("\nTeam: Panthers Stats")
-            display_stats(panthers)
-
-        elif sub_choice.lower() == 'b':
-            print("\nTeam: Bandits Stats")
-            display_stats(bandits)
-
-        elif sub_choice.lower() == 'c':
-            print("\nTeam: Warriors Stats")
-            display_stats(warriors)
-
+        main_choice = input("Enter an Option: ")
+        if main_choice.lower() == 'b':
+            break
+        elif main_choice.lower() == 'a':
+            run_app()
+            main_menu()
         else:
             break
-    #  NEED TO Write exceptions
-    
-#Script to run the full code
-main_menu()
-while True:
-    main_choice = input("Enter an Option: ")
-    if main_choice.lower() == 'b':
-        break
-    elif main_choice.lower() == 'a':
-        run_app()
-        break
+
+if __name__ == '__main__':
+    main()
