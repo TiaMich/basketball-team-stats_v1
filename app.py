@@ -17,12 +17,11 @@ from statistics import mean
 panthers = []
 bandits = []
 warriors = []
-total_experienced = 0
 
 # func to clean the data
-def clean_data(PLAYERS):
+def clean_data(players):
     fixed_data = []
-    for player in PLAYERS:
+    for player in players:
         fixed = {}
         fixed['name'] = player['name']
         if " and " in player['guardians']:
@@ -36,7 +35,6 @@ def clean_data(PLAYERS):
         fixed['height'] = int(player['height'].split(' ')[0])
         fixed_data.append(fixed)
     return tuple(fixed_data)
-clean_team = clean_data(PLAYERS) # contains the result of clean_data func
 
 # func to sort players to each team
 def balance_teams(clean_team):
@@ -51,12 +49,14 @@ def balance_teams(clean_team):
             inexperienced.append(player)
     while experienced:
         for team in all_teams:
-            pop_player = experienced.pop(0)
-            team.append(pop_player)
+            if experienced:
+                pop_player = experienced.pop(0)
+                team.append(pop_player)
     while inexperienced:
         for team in all_teams:
-            pop_player = inexperienced.pop(0)
-            team.append(pop_player)   
+            if inexperienced:
+                pop_player = inexperienced.pop(0)
+                team.append(pop_player)   
     return all_teams
 
 # the Main (first) menu options display
@@ -98,7 +98,6 @@ def display_stats(team):
 
     # List of player names
     player_names = []
-    players_sorter = []
     for player in team:
         player_names.append(player['name'])
 
@@ -123,8 +122,6 @@ def display_stats(team):
 
 # Function to run the team stats tool
 def run_app():
-    clean_data(PLAYERS)
-    balance_teams(clean_team)
     sub_menu()
     sub_choice = input("Choose an option: ")
     if sub_choice.lower() == 'a':
@@ -143,6 +140,8 @@ def run_app():
     
 #Script to run the full code in a dunder_main statement
 def main():
+    clean_team = clean_data(PLAYERS)
+    balance_teams(clean_team)
     main_menu()
     while True:
         main_choice = input("Enter an Option: ")
