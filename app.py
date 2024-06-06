@@ -56,7 +56,9 @@ def balance_teams(clean_team):
         for team in all_teams:
             if inexperienced:
                 pop_player = inexperienced.pop(0)
-                team.append(pop_player)   
+                team.append(pop_player)
+    for team in all_teams:
+        team.sort(key=lambda x: x['height']) 
     return all_teams
 
 # the Main (first) menu options display
@@ -95,6 +97,7 @@ def display_stats(team):
     player_heights = []
     for player in team:
         player_heights.append(player['height'])
+
 
     # List of player names
     player_names = []
@@ -135,9 +138,8 @@ def run_app():
     elif sub_choice.lower() == 'c':
         print("\nTeam: Warriors Stats")
         display_stats(warriors)
-
-#  NEED TO Write exceptions
-    
+   
+   
 #Script to run the full code in a dunder_main statement
 def main():
     clean_team = clean_data(PLAYERS)
